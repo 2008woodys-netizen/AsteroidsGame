@@ -32,8 +32,6 @@ class Floater{
       vertex((float)xCorners[i], (float)yCorners[i]);
     endShape();
     ellipse((float)xPos,(float)yPos,20,20);
-    println("x: " + xPos);
-    println("y: " + yPos);
   }
   public void move(){
     xSpeed = Math.cos(myAngle) * mySpeed;
@@ -94,8 +92,46 @@ class Floater{
       return yCorners[KCR];
     return 0;}
 }
-boolean upOrDownIsPressed = false;
-class Starship extends Floater{
+Starship ship;
+public void settings(){
+  size(1000,800);
+}
+void setup(){
+  ship = new Starship();
+}
+
+
+void draw(){
+  background(200);
+  ship.show();
+  ship.move(); 
+  //println(starship.getmySpeed());
+}
+
+void keyPressed(){
+  if(keyCode == UP){
+    ship.setxSpeed(ship.getxSpeed()+0.2 * Math.cos(ship.getmyAngle()));
+    ship.setySpeed(ship.getySpeed()+0.2 * Math.sin(ship.getmyAngle()));}
+  if(keyCode == LEFT)
+    ship.setmyAngle(ship.getmyAngle()-0.2);
+  if(keyCode == RIGHT)
+    ship.setmyAngle(ship.getmyAngle()+0.2);
+
+}
+class Star{
+  private float xPos, yPos;
+  private color myColor;
+  Star(){
+    xPos = (float)(Math.random()*1001);
+    yPos = (float)(Math.random()*801);
+    myColor = color((int)(Math.random()*50 + 200), (int)(Math.random()*50 + 200), (int)(Math.random()*50 + 200));
+  }
+  void show(){
+    fill(myColor);
+    ellipse(xPos, yPos, 3, 3);
+  }
+}
+    class Starship extends Floater{
   Starship(){
     mySpeed = 0;
     xSpeed = 0;
@@ -133,29 +169,3 @@ class Starship extends Floater{
     println("y: " + yPos);
   }
 }
-Starship ship;
-void setup(){
-  size(1000, 800);
-  ship = new Starship();
-}
-
-
-void draw(){
-  background(200);
-  ship.show();
-  ship.move(); 
-  //println(starship.getmySpeed());
-  upOrDownIsPressed = false;
-}
-
-void keyPressed(){
-  if(keyCode == UP){
-    ship.setxSpeed(ship.getxSpeed()+0.2 * Math.cos(ship.getmyAngle()));
-    ship.setySpeed(ship.getySpeed()+0.2 * Math.sin(ship.getmyAngle()));}
-  if(keyCode == LEFT)
-    ship.setmyAngle(ship.getmyAngle()-0.2);
-  if(keyCode == RIGHT)
-    ship.setmyAngle(ship.getmyAngle()+0.2);
-
-}
-
