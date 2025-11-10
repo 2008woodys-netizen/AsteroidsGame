@@ -2,12 +2,23 @@ class Floater{
   protected double xSpeed, ySpeed, xPos, yPos, myAngle, mySpeed;
   protected int numCorners;
   protected double[] xCorners, yCorners;
-  public Floater(int silly){
+  Floater(){
     mySpeed = 0;
     xSpeed = 0;
     ySpeed = 0;
-    xPos = 500;
-    yPos = 400;
+    xPos = 0;
+    yPos = 0;
+    myAngle = 0;
+    numCorners = 0;
+    xCorners = new double[numCorners];
+    yCorners = new double[numCorners];
+  }
+  Floater(int silly){
+    mySpeed = 0;
+    xSpeed = 0;
+    ySpeed = 0;
+    xPos = 0;
+    yPos = 0;
     myAngle = 0;
     numCorners = silly;
     xCorners = new double[numCorners];
@@ -15,21 +26,28 @@ class Floater{
   }
   
   public void show(){
-    pushMatrix();
-    translate((float)xPos, (float)yPos);
-    rotate((float)myAngle);
     fill(0);
     beginShape();
     for(int i = 0; i<numCorners; i++)
       vertex((float)xCorners[i], (float)yCorners[i]);
     endShape();
-    popMatrix();
+    ellipse((float)xPos,(float)yPos,20,20);
+    println("x: " + xPos);
+    println("y: " + yPos);
   }
   public void move(){
     xSpeed = Math.cos(myAngle) * mySpeed;
     ySpeed = Math.sin(myAngle) * mySpeed;
     xPos += xSpeed;
     yPos += ySpeed;
+    if(xPos>1050)
+      xPos = -50;
+    if(xPos<-50)
+      xPos = 1050;
+    if(yPos>850)
+      yPos = -50;
+    if(yPos<-50)
+      yPos = 850;
   }
   
   //super annoying getters and setters 
@@ -76,33 +94,68 @@ class Floater{
       return yCorners[KCR];
     return 0;}
 }
-void keyPressed(){
-  if(keyCode == UP){
-    println("after:" + starship.getmySpeed());
-    starship.setmySpeed(starship.getmySpeed()+1);
-    println("before:" + starship.getmySpeed());}
-  if(keyCode == DOWN)
-    starship.setmySpeed(starship.getmySpeed()-1);
-  if(keyCode == LEFT)
-    starship.setmyAngle(starship.getmyAngle()-0.2);
-  if(keyCode == RIGHT)
-    starship.setmyAngle(starship.getmyAngle()+0.2);
+boolean upOrDownIsPressed = false;
+class Starship extends Floater{
+  Starship(){
+    mySpeed = 0;
+    xSpeed = 0;
+    ySpeed = 0;
+    xPos = 500;
+    yPos = 400;
+    myAngle = 0;
+    numCorners = 3;
+    xCorners = new double[]{20,-20,-20};
+    yCorners = new double[]{0, -14, 14};
+  }
+  public void move(){
+    xPos += xSpeed;
+    yPos += ySpeed;
+    if(xPos>1050)
+      xPos = -50;
+    if(xPos<-50)
+      xPos = 1050;
+    if(yPos>850)
+      yPos = -50;
+    if(yPos<-50)
+      yPos = 850;
+  }
+  public void show(){
+    fill(0);
+    pushMatrix();
+    translate((float)xPos,(float)yPos);
+    rotate((float)myAngle);
+    beginShape();
+    for(int i = 0; i<numCorners; i++)
+      vertex((float)xCorners[i], (float)yCorners[i]);
+    endShape();
+    popMatrix();
+    println("x: " + xPos);
+    println("y: " + yPos);
+  }
 }
-
-Floater starship;
+Starship ship;
 void setup(){
   size(1000, 800);
-  starship = new Floater(3);
+  ship = new Starship();
 }
+
+
 void draw(){
   background(200);
-  starship.setxCorner(0, starship.getxPos() + 30);
-  starship.setyCorner(0, starship.getyPos());
-  starship.setxCorner(1, starship.getxPos() - 26);
-  starship.setyCorner(1, starship.getyPos() - 14);
-  starship.setxCorner(2, starship.getxPos() - 26);
-  starship.setyCorner(2, starship.getyPos() + 14);
-  starship.show();
-  starship.move(); 
+  ship.show();
+  ship.move(); 
   //println(starship.getmySpeed());
+  upOrDownIsPressed = false;
 }
+
+void keyPressed(){
+  if(keyCode == UP){
+    ship.setxSpeed(ship.getxSpeed()+0.2 * Math.cos(ship.getmyAngle()));
+    ship.setySpeed(ship.getySpeed()+0.2 * Math.sin(ship.getmyAngle()));}
+  if(keyCode == LEFT)
+    ship.setmyAngle(ship.getmyAngle()-0.2);
+  if(keyCode == RIGHT)
+    ship.setmyAngle(ship.getmyAngle()+0.2);
+
+}
+
