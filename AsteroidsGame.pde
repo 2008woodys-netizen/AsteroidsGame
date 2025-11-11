@@ -12,12 +12,11 @@ void setup(){
 
 void draw(){
   background(20);
-  ship.show();
-  ship.move();
   ship.hyperspace();
   for(int i = 0; i<sky.length; i++)
     sky[i].show();
-  //println(starship.getmySpeed());
+  ship.show();
+  ship.move();
   shiftPressed = false;
 }
 
