@@ -36,7 +36,7 @@ class Starship extends Floater{
   public void hyperspace(){
     if(shiftPressed == true){
       xPos = Math.random()*1000;
-      xPos = Math.random()*800;
+      yPos = Math.random()*800;
       xSpeed = 0;
       ySpeed = 0;
       myAngle = Math.random()*2*PI;}
