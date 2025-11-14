@@ -7,8 +7,8 @@ class Starship extends Floater{
     yPos = 400;
     myAngle = 0;
     numCorners = 8;
-    xCorners = new double[]{9, 5, 3, -2, -2, 3, 5, 0};
-    yCorners = new double[]{0, 3, 7, 7, -7, -7, -3, 0};
+    xCorners = new double[]{27, 15, 9, -6, -6, 9, 15, 27};
+    yCorners = new double[]{0, 9, 21, 21, -21, -21, -9, 0};
   }
   public void move(){
     xPos += xSpeed;
