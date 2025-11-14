@@ -13,5 +13,13 @@ class Bullet extends Floater{
   void move(){
     xPos += xSpeed;
     yPos += ySpeed;
+    if(xPos >= 1100)
+      xPos = -100;
+    if(xPos <= -100)
+      xPos = 1100;
+    if(yPos >= 900)
+      yPos = -100;
+    if(yPos <= -100)
+      yPos = 900;
   }
 }
