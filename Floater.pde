@@ -34,17 +34,15 @@ class Floater{
     ellipse((float)xPos,(float)yPos,20,20);
   }
   public void move(){
-    xSpeed = Math.cos(myAngle) * mySpeed;
-    ySpeed = Math.sin(myAngle) * mySpeed;
     xPos += xSpeed;
     yPos += ySpeed;
     if(xPos>1050)
-      xPos = -50;
-    if(xPos<-50)
+      xPos = -149;
+    if(xPos<-150)
       xPos = 1050;
     if(yPos>850)
-      yPos = -50;
-    if(yPos<-50)
+      yPos = -149;
+    if(yPos<-150)
       yPos = 850;
   }
   
@@ -93,4 +91,5 @@ class Floater{
     return 0;}
 }
 
-    
+
+
