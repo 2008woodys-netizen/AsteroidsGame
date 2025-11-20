@@ -1,0 +1,44 @@
+class Asteroid extends Floater {
+  private int radius;
+  private double rotationSpeed;
+  private double angle;
+  private int generation;
+  Asteroid(int gen, float x, float y) {
+    generation = gen;
+    rotationSpeed = Math.random() * 0.04 - 0.02;
+    numCorners = (int)(Math.random()*5+10);
+    xSpeed = Math.random()*5 - 2;
+    ySpeed = Math.random()*5 - 2;
+    xPos = x;
+    yPos = y;
+    radius = 40/generation;
+    xCorners = new double[numCorners];
+    yCorners = new double[numCorners];
+    for (int i = 0; i<numCorners; i++) {
+      xCorners[i] = Math.cos((2*PI)/numCorners * i)*radius + Math.random()*20 - 5;
+      yCorners[i] = Math.sin((2*PI)/numCorners * i)*radius + Math.random()*20 - 5;
+    }
+  }
+  void show() {
+    angle += rotationSpeed;
+    noStroke();
+    fill(200, 170, 170);
+    pushMatrix();
+    translate((float)xPos, (float)yPos);
+    rotate((float)angle);
+    beginShape();
+    for (int i = 0; i<numCorners; i++) {
+      vertex((float)xCorners[i], (float)yCorners[i]);
+    }
+    endShape();
+    popMatrix();
+  }
+  void move(){
+    super.move();
+    }
+  int getRadius(){
+    return radius;}
+  int getGeneration(){
+    return generation;}
+}
+
