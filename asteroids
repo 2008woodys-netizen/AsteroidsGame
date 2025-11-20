@@ -1,3 +1,4 @@
+
 class Asteroid extends Floater {
   private int radius;
   private double rotationSpeed;
@@ -41,4 +42,5 @@ class Asteroid extends Floater {
   int getGeneration(){
     return generation;}
 }
+
 
