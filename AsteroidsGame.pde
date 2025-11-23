@@ -80,7 +80,7 @@ void draw() {
     gameWon = true;
     fill(0,255,0);
     //rect(300, 200, 400, 400);
-    fill(0);
+    //fill(0);
     textSize(50);
     text("You Win", 400, 400);
   }
@@ -90,7 +90,7 @@ void draw() {
   if(gameLost == true){
     fill(255,0,0);
     //rect(300, 200, 400, 400);
-    fill(0);
+    //fill(0);
     textSize(50);
     text("You Lose", 400, 400);
   }
