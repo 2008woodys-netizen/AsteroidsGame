@@ -1,6 +1,7 @@
 boolean shiftPressed = false;
-boolean gameOver = false;
 boolean shooting = false;
+boolean gameLost = false;
+boolean gameWon = false;
 Starship ship;
 ArrayList <Bullet> bullets = new ArrayList<Bullet>();
 ArrayList <Asteroid> asteroids = new ArrayList<Asteroid>();
@@ -14,7 +15,7 @@ void setup() {
   for (int i = 0; i<sky.length; i++)
     sky[i] = new Star();
   for (int i = 0; i<7; i++) {
-    Asteroid someAsteroid = new Asteroid(1, (float)(Math.random()*1000), (float)(Math.random()*800));
+    Asteroid someAsteroid = new Asteroid(Math.random()*1000, Math.random()*800, 1);
     someAsteroid.show();
     asteroids.add(someAsteroid);
   }
@@ -22,7 +23,6 @@ void setup() {
 
 
 void draw() {
-
   background(20);
 
   //stars
@@ -33,25 +33,24 @@ void draw() {
   for (int i = asteroids.size()-1; i>=0; i--) {
     asteroids.get(i).show();
     asteroids.get(i).move();
-    double xShipTouch = asteroids.get(i).getxPos() - ship.getxPos();
-    double yShipTouch = asteroids.get(i).getyPos() - ship.getyPos();
-    if (Math.sqrt(xShipTouch * xShipTouch + yShipTouch * yShipTouch) <= asteroids.get(i).getRadius())
-      gameOver = true;
+    double xship = asteroids.get(i).getxPos() - ship.getxPos();
+    double yship = asteroids.get(i).getyPos() - ship.getyPos();
+    if(Math.sqrt(xship*xship + yship*yship) <= asteroids.get(i).getRadius())
+      gameLost = true;
     for (int j = bullets.size()-1; j>=0; j--) {
       double xDist = asteroids.get(i).getxPos() - bullets.get(j).getxPos();
       double yDist = asteroids.get(i).getyPos() - bullets.get(j).getyPos();
       if (Math.sqrt(xDist * xDist + yDist * yDist) <= asteroids.get(i).getRadius()) {
         for (int p = 0; p<2; p++) {
-          if(asteroids.get(i).getGeneration() <= 2){
-            Asteroid someAsteroid = new Asteroid(asteroids.get(i).getGeneration() + 1, (float)asteroids.get(i).getxPos(), (float)asteroids.get(i).getyPos());
-            asteroids.add(someAsteroid);}
+          Asteroid someasteroid = new Asteroid(asteroids.get(i).getxPos(), asteroids.get(i).getyPos(), asteroids.get(i).getGeneration()+1);
+          asteroids.add(someasteroid);
         }
-        asteroids.remove(i);
         bullets.remove(j);
-        println("hit");
-        break;
+        asteroids.remove(i);
       }
     }
+    if(asteroids.get(i).getGeneration() >= 4)
+      asteroids.remove(i);
   }
 
 
@@ -76,31 +75,42 @@ void draw() {
   shiftPressed = false;
   shooting = false;
   
-  //game over
-  if(gameOver == true){
-    fill(255, 0, 0);
-    rect(300, 300, 450, 200);
+  //win
+  if(asteroids.size() == 0){
+    gameWon = true;
+    fill(0,255,0);
+    rect(300, 200, 400, 400);
     fill(0);
-    textSize(30);
-    text("Game Over",465 , 400);
+    textSize(50);
+    text("You Win", 400, 400);
+  }
+    
+  
+  //lose
+  if(gameLost == true){
+    fill(255,0,0);
+    rect(300, 200, 400, 400);
+    fill(0);
+    textSize(50);
+    text("You Lose", 400, 400);
   }
 }
 
 void keyPressed() {
-  if (gameOver == false) {
-    if (keyCode == UP) {
-      ship.setxSpeed(ship.getxSpeed()+0.2 * Math.cos(ship.getmyAngle()));
-      ship.setySpeed(ship.getySpeed()+0.2 * Math.sin(ship.getmyAngle()));
-    }
-    if (keyCode == LEFT)
-      ship.setmyAngle(ship.getmyAngle()-0.2);
-    if (keyCode == RIGHT)
-      ship.setmyAngle(ship.getmyAngle()+0.2);
-    if (keyCode == SHIFT)
-      shiftPressed = true;
-    if (keyCode == 32) {
-      shooting = true;
-    }
+  if(gameLost == false && gameWon == false){
+  if (keyCode == UP) {
+    ship.setxSpeed(ship.getxSpeed()+0.2 * Math.cos(ship.getmyAngle()));
+    ship.setySpeed(ship.getySpeed()+0.2 * Math.sin(ship.getmyAngle()));
+  }
+  if (keyCode == LEFT)
+    ship.setmyAngle(ship.getmyAngle()-0.2);
+  if (keyCode == RIGHT)
+    ship.setmyAngle(ship.getmyAngle()+0.2);
+  if (keyCode == SHIFT)
+    shiftPressed = true;
+  if (keyCode == 32) {
+    shooting = true;
+  }
   }
 }
 
