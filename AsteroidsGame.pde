@@ -1,7 +1,8 @@
+int waveNumber = 1;
 boolean shiftPressed = false;
 boolean shooting = false;
 boolean gameLost = false;
-boolean gameWon = false;
+boolean waveEnded = false;
 Starship ship;
 ArrayList <Bullet> bullets = new ArrayList<Bullet>();
 ArrayList <Asteroid> asteroids = new ArrayList<Asteroid>();
@@ -14,9 +15,8 @@ void setup() {
   ship = new Starship();
   for (int i = 0; i<sky.length; i++)
     sky[i] = new Star();
-  for (int i = 0; i<7; i++) {
+  for (int i = 0; i<2; i++) {
     Asteroid someAsteroid = new Asteroid(Math.random()*1000, Math.random()*800, 1);
-    someAsteroid.show();
     asteroids.add(someAsteroid);
   }
 }
@@ -74,16 +74,6 @@ void draw() {
   //resetting booleans
   shiftPressed = false;
   shooting = false;
-  
-  //win
-  if(asteroids.size() == 0){
-    gameWon = true;
-    fill(0,255,0);
-    //rect(300, 200, 400, 400);
-    //fill(0);
-    textSize(50);
-    text("You Win", 400, 400);
-  }
     
   
   //lose
@@ -94,10 +84,23 @@ void draw() {
     textSize(50);
     text("You Lose", 400, 400);
   }
+  
+  
+  //next wave
+  if(asteroids.size() == 0){
+    waveNumber += 1;
+    for(int i = 0; i<waveNumber * 1.5 + 2; i++){
+      Asteroid someAsteroid = new Asteroid(Math.random()*1000, Math.random()*800, 1);
+      asteroids.add(someAsteroid);}
+  }
+  String score = "wave: " + waveNumber;
+  fill(150);
+  textSize(40);
+  text(score, 840, 40);
 }
 
 void keyPressed() {
-  if(gameLost == false && gameWon == false){
+  if(gameLost == false){
   if (keyCode == UP) {
     ship.setxSpeed(ship.getxSpeed()+0.2 * Math.cos(ship.getmyAngle()));
     ship.setySpeed(ship.getySpeed()+0.2 * Math.sin(ship.getmyAngle()));
@@ -113,4 +116,3 @@ void keyPressed() {
   }
   }
 }
-
